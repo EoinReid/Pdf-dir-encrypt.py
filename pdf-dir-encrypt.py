@@ -7,16 +7,17 @@ import shutil
 import sys
 
 # enter password to encrypt all pdfs with
-if len(sys.argv) < 2:
-    print("Usage: python3 pdf-paranoia.py [password_to_encrypt]" )
+if len(sys.argv) < 3:
+    print("Usage: python3 pdf-paranoia.py [password_to_encrypt] [path/to/folder]" )
     sys.exit()
-elif len(sys.argv) == 2:
+elif len(sys.argv) == 3:
     password = sys.argv[1]
+    folder_path = sys.argv[2]
     pdfFiles = []
-    for filename in os.listdir('pdf-files'):
+    for filename in os.listdir(folder_path):
         if filename.endswith('.pdf'):
             pdfFiles.append(filename)
-            filepath = os.path.join('pdf-files', filename)
+            filepath = os.path.join(folder_path, filename)
     pdfFiles.sort(key = str.lower)
     pdfWriter = PyPDF2.PdfFileWriter()
 
@@ -32,4 +33,3 @@ elif len(sys.argv) == 2:
         resultPdf = open(f"encrypted_{filename}", "wb")
         pdfWriter.write(resultPdf)
         resultPdf.close()
-    
